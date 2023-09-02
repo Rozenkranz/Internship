@@ -3,7 +3,7 @@
 
 ## Интерфейс
 Интерфейс состоит из простых элементов управления, таких как:
-* <Button >
-* <TextBox >
-* <RadioButton >
+* < Button >
+* < TextBox >
+* < RadioButton >
 
