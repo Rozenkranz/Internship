@@ -69,20 +69,20 @@ namespace Backuper
                     status = Compressor.CompressGZ(cfg);
                     if (status == 0)
                     {
-                        textBoxHome.Text = "Архивирование успешно завершено! Ошибок: " + status.ToString();
+                        textBoxLog.Text = "Архивирование успешно завершено! Ошибок: " + status.ToString();
                     }
                     else
                     {
-                        textBoxHome.Text = "В процессе архивирования возникли проблемы. Ошибок: " + status.ToString();
+                        textBoxLog.Text = "В процессе архивирования возникли проблемы. Ошибок: " + status.ToString();
                     }
                 }
                 else
                 {
                     status = Compressor.CompressZip(cfg);
                     if (status == 0)
-                        textBoxHome.Text = "Архивирование успешно завершено!";
+                        textBoxLog.Text = "Архивирование успешно завершено!";
                     else
-                        textBoxHome.Text = "В процессе архивирования возникли проблемы.";
+                        textBoxLog.Text = "В процессе архивирования возникли проблемы.";
                 }
                     
             }

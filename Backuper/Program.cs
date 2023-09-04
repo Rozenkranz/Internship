@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Text.Json;
 using System.IO.Compression;
 namespace Backuper
 {
