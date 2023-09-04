@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Compression;
 namespace Backuper
 {
@@ -12,22 +13,26 @@ namespace Backuper
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
     static class Config
     {
-        public static string TargetPath { get; set; }
-        public static string HomePath { get; set; }
+        static public string ConfigPath { get; set; }
+        static public string TargetPath { get; set; }
+        static public string HomePath { get; set; }
+        static public string LogPath { get; set; }
+        static public string CompressionType { get; set; }
+
+       
     }
 
     static class Copier
     {
-        static public int CopyAndCompress()
+        static public void CompressGZ()
         {
-            if (System.IO.Directory.Exists(Config.TargetPath))
-            {
-                string CurrentDir = CreateTemp(Config.TargetPath);
+            
+                string CurrentDir = CreateTemp(Config.TargetPath,false);
                 DirectoryInfo directorySelected = new DirectoryInfo(Config.HomePath);
                 foreach (FileInfo fileToCompress in directorySelected.GetFiles())
                 {
@@ -47,20 +52,27 @@ namespace Backuper
                                 }
                             }
                             FileInfo info = new FileInfo(Config.HomePath + Path.DirectorySeparatorChar + fileToCompress.Name + ".gz");
-                            //Console.WriteLine($"Compressed {fileToCompress.Name} from {fileToCompress.Length.ToString()} to {info.Length.ToString()} bytes.");
+                            
                         }
                     }  
                 }
-            }
-            return 0;
-        }
             
-        static public string CreateTemp(string TargetPath)
+        }
+        
+        public static void CompressZip()
         {
-            string DirName = TargetPath
+            string CurrentDir = CreateTemp(Config.TargetPath, true);
+
+            ZipFile.CreateFromDirectory(Config.HomePath, CurrentDir);
+        }
+        static public string CreateTemp(string TempPath, bool archive)
+        {
+            string DirName = TempPath
                 + "/Temp_" + $"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}";
             if (!Directory.Exists(DirName))
                 Directory.CreateDirectory(DirName);
+            if (archive)
+                DirName += "/Temp_" + $"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip";
             return DirName;
         }
     }
